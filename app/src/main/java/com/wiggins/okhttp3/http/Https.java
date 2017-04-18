@@ -89,10 +89,12 @@ public class Https {
         }
     }
 
+    /**
+     * @Description 准备所信任的服务器证书
+     */
     private static TrustManager[] prepareTrustManager(InputStream... certificates) {
         if (certificates == null || certificates.length <= 0) return null;
         try {
-
             CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
             KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
             keyStore.load(null);
@@ -103,17 +105,14 @@ public class Https {
                 try {
                     if (certificate != null)
                         certificate.close();
-                } catch (IOException e)
-
-                {
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
+
             TrustManagerFactory trustManagerFactory = null;
-
-            trustManagerFactory = TrustManagerFactory.
-                    getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             trustManagerFactory.init(keyStore);
-
             TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
 
             return trustManagers;
@@ -127,19 +126,22 @@ public class Https {
             e.printStackTrace();
         }
         return null;
-
     }
 
+    /**
+     * @Description 准备服务器信任的客户端的证书
+     */
     private static KeyManager[] prepareKeyManager(InputStream bksFile, String password) {
         try {
-            if (bksFile == null || password == null) return null;
-
+            if (bksFile == null || password == null) {
+                return null;
+            }
+            // Android默认的是BKS格式的证书
             KeyStore clientKeyStore = KeyStore.getInstance("BKS");
             clientKeyStore.load(bksFile, password.toCharArray());
             KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
             keyManagerFactory.init(clientKeyStore, password.toCharArray());
             return keyManagerFactory.getKeyManagers();
-
         } catch (KeyStoreException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
