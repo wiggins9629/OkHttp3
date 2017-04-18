@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">OkHttp3</string>
+
+    <string name="title">OkHttp3使用详解</string>
+    <string name="loading">正在加载中，请稍后...</string>
+
+    <string name="query">查询</string>
+    <string name="date_format">日期格式:月/日,若月或者日小于10时前面无需加0。</string>
+    <string name="please_enter_query_date">请输入查询日期</string>
+    <string name="no_picture_information">暂无图片信息</string>
+    <string name="no_data_please_check">暂无数据,请查询</string>
+    <string name="query_date_not_empty">查询日期不能为空</string>
+    <string name="event_list">事件列表</string>
+    <string name="event_list_details">事件列表详情</string>
+
+    <string name="download_success">下载成功</string>
+    <string name="file_does_not_exist">文件不存在</string>
+    <string name="back_abnormal_results">数据返回异常</string>
+</resources>

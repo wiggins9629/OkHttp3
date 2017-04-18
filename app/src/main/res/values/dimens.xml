@@ -1,0 +1,60 @@
+<resources>
+
+    <!-- 通用 font 字体 -->
+    <dimen name="font_max">36sp</dimen>
+    <dimen name="font_huge">24sp</dimen>
+    <dimen name="font_large">18sp</dimen>
+    <dimen name="font_normal">16sp</dimen>
+    <dimen name="font_small">14sp</dimen>
+    <dimen name="font_tiny">12sp</dimen>
+    <dimen name="font_mini">10sp</dimen>
+    <!-- 通用 line 分割线 -->
+    <dimen name="line_height">0.5dp</dimen>
+    <!-- 通用 title 高度 -->
+    <dimen name="title_height">45dp</dimen>
+    <!-- 通用 icon 头像 -->
+    <dimen name="icon_max">70dp</dimen>
+    <dimen name="icon_huge">60dp</dimen>
+    <dimen name="icon_large">50dp</dimen>
+    <dimen name="icon_normal">40dp</dimen>
+    <dimen name="icon_small">35dp</dimen>
+    <dimen name="icon_tiny">30dp</dimen>
+    <!-- 通用 img 图片 -->
+    <dimen name="img_max">85dp</dimen>
+    <dimen name="img_huge">75dp</dimen>
+    <dimen name="img_large">65dp</dimen>
+    <dimen name="img_normal">55dp</dimen>
+    <dimen name="img_small">45dp</dimen>
+    <dimen name="img_tiny">35dp</dimen>
+    <!-- 通用 margin 外边距 -->
+    <dimen name="margin_max">40dp</dimen>
+    <dimen name="margin_huge">30dp</dimen>
+    <dimen name="margin_large">20dp</dimen>
+    <dimen name="margin_normal">15dp</dimen>
+    <dimen name="margin_small">10dp</dimen>
+    <dimen name="margin_tiny">5dp</dimen>
+    <!-- 通用 padding 内边距 -->
+    <dimen name="padding_max">40dp</dimen>
+    <dimen name="padding_huge">30dp</dimen>
+    <dimen name="padding_large">20dp</dimen>
+    <dimen name="padding_normal">15dp</dimen>
+    <dimen name="padding_small">10dp</dimen>
+    <dimen name="padding_tiny">5dp</dimen>
+    <!-- 通用 item 高度 -->
+    <dimen name="item_max">75dp</dimen>
+    <dimen name="item_huge">65dp</dimen>
+    <dimen name="item_large">55dp</dimen>
+    <dimen name="item_normal">45dp</dimen>
+    <dimen name="item_small">35dp</dimen>
+    <dimen name="item_tiny">25dp</dimen>
+    <!-- 通用 btn 宽高度 -->
+    <dimen name="btn_width_normal">75dp</dimen>
+    <dimen name="btn_height_normal">35dp</dimen>
+    <dimen name="btn_height_bottom">50dp</dimen>
+    <!-- 通用 提示 宽度 -->
+    <dimen name="tv_width_normal">75dp</dimen>
+    <!-- 通用 dialog 宽度 -->
+    <dimen name="dialog_width">300dp</dimen>
+    <!-- 通用 圆角 -->
+    <dimen name="radius">5dp</dimen>
+</resources>

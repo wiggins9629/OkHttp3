@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#63aade</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="theme_bg">#f6f6f6</color>
+    <color name="theme_title">#63aade</color>
+    <color name="prompt_bg">#eaecec</color>
+    <color name="sliding_left_head">#99ccff</color>
+    <color name="sliding_left_press">#50597b</color>
+    <color name="sliding_left_normal">#394264</color>
+    <color name="sliding_right_normal">#669999</color>
+    <color name="line_color">#e0e0e0</color>
+    <color name="white">#ffffff</color>
+    <color name="red">#ea5450</color>
+    <color name="red_pressed">#fb6e6e</color>
+    <color name="gray">#888888</color>
+    <color name="gray_pressed">#a8a8a8</color>
+    <color name="blue">#63aade</color>
+    <color name="blue_pressed">#99ccee</color>
+    <color name="black">#333333</color>
+    <color name="transparent">#00000000</color>
+</resources>
