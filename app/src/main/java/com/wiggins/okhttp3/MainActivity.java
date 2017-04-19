@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.wiggins.okhttp3.adapter.TodayHistoryQueryAdapter;
 import com.wiggins.okhttp3.base.BaseActivity;
 import com.wiggins.okhttp3.bean.TodayHistoryQuery;
-import com.wiggins.okhttp3.cookie.CookieJarImpl;
+import com.wiggins.okhttp3.cookies.CookiesManager;
 import com.wiggins.okhttp3.http.HttpCallback;
 import com.wiggins.okhttp3.http.OkHttpUtils;
 import com.wiggins.okhttp3.http.ResultDesc;
@@ -163,10 +163,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    public void clearSession() {
+    public void clearCookie() {
         CookieJar cookieJar = OkHttpUtils.getInstance().getOkHttpClient().cookieJar();
-        if (cookieJar instanceof CookieJarImpl) {
-            ((CookieJarImpl) cookieJar).getCookieStore().removeAll();
+        if (cookieJar instanceof CookiesManager) {
+            ((CookiesManager) cookieJar).getCookieStore().removeAll();
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.wiggins.okhttp3.cookie.store;
+package com.wiggins.okhttp3.cookies;
 
 import java.util.List;
 

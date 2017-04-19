@@ -1,4 +1,4 @@
-package com.wiggins.okhttp3.cookie.store;
+package com.wiggins.okhttp3.cookies;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -22,23 +22,7 @@ import okhttp3.Cookie;
 import okhttp3.HttpUrl;
 
 /**
- * <pre>
- *     OkHttpClient client = new OkHttpClient.Builder()
- *             .cookieJar(new JavaNetCookieJar(new CookieManager(
- *                     new PersistentCookieStore(getApplicationContext()),
- *                             CookiePolicy.ACCEPT_ALL))
- *             .build();
- *
- * </pre>
- * <p/>
  * from http://stackoverflow.com/questions/25461792/persistent-cookie-store-using-okhttp-2-on-android
- * <p/>
- * <br/>
- * A persistent cookie store which implements the Apache HttpClient CookieStore interface.
- * Cookies are stored and will persist on the user's device between application sessions since they
- * are serialized and stored in SharedPreferences. Instances of this class are
- * designed to be used with AsyncHttpClient#setCookieStore, but can also be used with a
- * regular old apache HttpClient/HttpContext if you prefer.
  */
 public class PersistentCookieStore implements CookieStore {
 
@@ -56,32 +40,40 @@ public class PersistentCookieStore implements CookieStore {
      */
     public PersistentCookieStore(Context context) {
         cookiePrefs = context.getSharedPreferences(COOKIE_PREFS, 0);
-        cookies = new HashMap<String, ConcurrentHashMap<String, Cookie>>();
+        cookies = new HashMap<>();
 
-        // Load any previously stored cookies into the store
+        //将持久化的cookies缓存到内存中 即map cookies
         Map<String, ?> prefsMap = cookiePrefs.getAll();
         for (Map.Entry<String, ?> entry : prefsMap.entrySet()) {
-            if (((String) entry.getValue()) != null && !((String) entry.getValue()).startsWith(COOKIE_NAME_PREFIX)) {
+            if ((entry.getValue()) != null && !((String) entry.getValue()).startsWith(COOKIE_NAME_PREFIX)) {
                 String[] cookieNames = TextUtils.split((String) entry.getValue(), ",");
                 for (String name : cookieNames) {
                     String encodedCookie = cookiePrefs.getString(COOKIE_NAME_PREFIX + name, null);
                     if (encodedCookie != null) {
                         Cookie decodedCookie = decodeCookie(encodedCookie);
                         if (decodedCookie != null) {
-                            if (!cookies.containsKey(entry.getKey()))
+                            if (!cookies.containsKey(entry.getKey())) {
                                 cookies.put(entry.getKey(), new ConcurrentHashMap<String, Cookie>());
+                            }
                             cookies.get(entry.getKey()).put(name, decodedCookie);
                         }
                     }
                 }
-
             }
+        }
+    }
+
+    @Override
+    public void add(HttpUrl uri, List<Cookie> cookies) {
+        for (Cookie cookie : cookies) {
+            add(uri, cookie);
         }
     }
 
     protected void add(HttpUrl uri, Cookie cookie) {
         String name = getCookieToken(cookie);
 
+        //将cookies缓存到内存中,如果缓存过期,就重置此cookie
         if (cookie.persistent()) {
             if (!cookies.containsKey(uri.host())) {
                 cookies.put(uri.host(), new ConcurrentHashMap<String, Cookie>());
@@ -95,7 +87,7 @@ public class PersistentCookieStore implements CookieStore {
             }
         }
 
-        // Save cookie into persistent store
+        //讲cookies持久化到本地
         SharedPreferences.Editor prefsWriter = cookiePrefs.edit();
         prefsWriter.putString(uri.host(), TextUtils.join(",", cookies.get(uri.host()).keySet()));
         prefsWriter.putString(COOKIE_NAME_PREFIX + name, encodeCookie(new SerializableHttpCookie(cookie)));
@@ -107,15 +99,8 @@ public class PersistentCookieStore implements CookieStore {
     }
 
     @Override
-    public void add(HttpUrl uri, List<Cookie> cookies) {
-        for (Cookie cookie : cookies) {
-            add(uri, cookie);
-        }
-    }
-
-    @Override
     public List<Cookie> get(HttpUrl uri) {
-        ArrayList<Cookie> ret = new ArrayList<Cookie>();
+        ArrayList<Cookie> ret = new ArrayList<>();
         if (cookies.containsKey(uri.host())) {
             Collection<Cookie> cookies = this.cookies.get(uri.host()).values();
             for (Cookie cookie : cookies) {
@@ -126,7 +111,6 @@ public class PersistentCookieStore implements CookieStore {
                 }
             }
         }
-
         return ret;
     }
 
@@ -142,7 +126,6 @@ public class PersistentCookieStore implements CookieStore {
         cookies.clear();
         return true;
     }
-
 
     @Override
     public boolean remove(HttpUrl uri, Cookie cookie) {
@@ -166,14 +149,19 @@ public class PersistentCookieStore implements CookieStore {
 
     @Override
     public List<Cookie> getCookies() {
-        ArrayList<Cookie> ret = new ArrayList<Cookie>();
-        for (String key : cookies.keySet())
+        ArrayList<Cookie> ret = new ArrayList<>();
+        for (String key : cookies.keySet()) {
             ret.addAll(cookies.get(key).values());
-
+        }
         return ret;
     }
 
-
+    /**
+     * Serializes Cookie object into String
+     *
+     * @param cookie cookie to be encoded, can be null
+     * @return cookie encoded as String
+     */
     protected String encodeCookie(SerializableHttpCookie cookie) {
         if (cookie == null)
             return null;
@@ -189,6 +177,12 @@ public class PersistentCookieStore implements CookieStore {
         return byteArrayToHexString(os.toByteArray());
     }
 
+    /**
+     * Returns cookie decoded from cookie string
+     *
+     * @param cookieString string of cookie as returned from http request
+     * @return decoded cookie or null if exception occured
+     */
     protected Cookie decodeCookie(String cookieString) {
         byte[] bytes = hexStringToByteArray(cookieString);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
