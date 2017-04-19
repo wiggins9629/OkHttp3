@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.wiggins.okhttp3.adapter.TodayHistoryQueryAdapter;
 import com.wiggins.okhttp3.base.BaseActivity;
 import com.wiggins.okhttp3.bean.TodayHistoryQuery;
+import com.wiggins.okhttp3.cookie.CookieJarImpl;
 import com.wiggins.okhttp3.http.HttpCallback;
 import com.wiggins.okhttp3.http.OkHttpUtils;
 import com.wiggins.okhttp3.http.ResultDesc;
@@ -33,6 +34,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.CookieJar;
 
 /**
  * @Description OkHttp3使用详解
@@ -157,6 +160,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 getTodayHistoryQuery();
                 break;
+        }
+    }
+
+    public void clearSession() {
+        CookieJar cookieJar = OkHttpUtils.getInstance().getOkHttpClient().cookieJar();
+        if (cookieJar instanceof CookieJarImpl) {
+            ((CookieJarImpl) cookieJar).getCookieStore().removeAll();
         }
     }
 }
